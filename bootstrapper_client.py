@@ -167,7 +167,7 @@ if __name__ == '__main__':
 
         # ADD CALLBACKS VIA HARNESS:
         print('*\t*\t* add callbacks via harness\t*\t*\t*')
-        bootstrapper_harness.add_callback(publisher.id,'bootstrapper', {none:['None']})
+        bootstrapper_harness.add_callback(publisher.id,'bootstrapper', {bootstrapper:['None']})
         #driver_harness.add_callback(publisher.id,'smoothie', {positions:['M114']})
 
         #show what was added
