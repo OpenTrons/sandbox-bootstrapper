@@ -15,24 +15,24 @@ class Harness(object):
 		"""
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.__init__:')
-		print('\tpublisher: '+str(publisher))
+		print('\tpublisher: ',publisher)
 		self._publisher = publisher
 		self.driver_dict = {}
 		self.meta_dict = {
-			'drivers' : lambda form_,name,param: self.drivers(from_,name,param),
-			'add_driver' : lambda form_,name,param: self.add_driver(from_,name,param),
+			'drivers' : lambda from_,name,param: self.drivers(from_,name,param),
+			'add_driver' : lambda from_,name,param: self.add_driver(from_,name,param),
 			'remove_driver' : lambda form_,name,param: self.remove_driver(from_,name,param),
-		#'meta_callbacks' : lambda form_,name, param: self.meta_callbacks(form_,name,param),
-		#	'set_meta_callback' : lambda form_,name,param: self.set_meta_callback(from_,name,param),
-			'add_callback' : lambda form_,name,param: self.add_callback(from_,name,param),
-			'remove_callback' : lambda form_,name,param: self.remove_callback(from_,name,param),
-			'flow' : lambda form_,name,param: self.flow(from_,name,param),
-			'clear_queue' : lambda form_,name,param: self.clear_queue(from_,name,param),
-		#	'connect' : lambda form_,name,param: self.connect(from_,name,param),
-		#	'disconnect' : lambda form_,name,param: self.disconnect(from_,name,param),
-		#	'commands' : lambda form_,name,param: self.commands(form_,name,param),
-		#	'configs' : lambda form_,name,param: self.configs(from_,name,param),
-		#	'set_config' : lambda form_,name,param: self.set_config(from_,name,param)
+		#'meta_callbacks' : lambda from_,name, param: self.meta_callbacks(form_,name,param),
+		#	'set_meta_callback' : lambda from_,name,param: self.set_meta_callback(from_,name,param),
+			'add_callback' : lambda from_,name,param: self.add_callback(from_,name,param),
+			'remove_callback' : lambda from_,name,param: self.remove_callback(from_,name,param),
+			'flow' : lambda from_,name,param: self.flow(from_,name,param),
+			'clear_queue' : lambda from_,name,param: self.clear_queue(from_,name,param),
+		#	'connect' : lambda from_,name,param: self.connect(from_,name,param),
+		#	'disconnect' : lambda from_,name,param: self.disconnect(from_,name,param),
+		#	'commands' : lambda from_,name,param: self.commands(form_,name,param),
+		#	'configs' : lambda from_,name,param: self.configs(from_,name,param),
+		#	'set_config' : lambda from_,name,param: self.set_config(from_,name,param)
 		}
 
 
@@ -50,6 +50,7 @@ class Harness(object):
 		param: n/a
 		"""
 		print(datetime.datetime.now(),'- bootstrapper_harness.drivers:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		if name is None:
@@ -64,6 +65,7 @@ class Harness(object):
 		param: driver object
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.add_driver:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self.driver_dict[name] = param
@@ -75,6 +77,7 @@ class Harness(object):
 		param: n/a
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.remove_driver:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		del self.driver_dict[name]
@@ -86,6 +89,7 @@ class Harness(object):
 		param: n/a
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.callbacks:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self._publisher.publish(from_,from_,'bootstrapper',name,'callbacks',self.driver_dict[name].callbacks())
@@ -125,6 +129,7 @@ class Harness(object):
 		param: { callback obj: [messages list] }
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.add_callback:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self.driver_dict[name].add_callback(list(param)[0],list(param.values())[0])
@@ -137,6 +142,7 @@ class Harness(object):
 		param: name of callback to remove
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.remove_callback:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self.driver_dict[name].remove_callback(param)
@@ -149,6 +155,7 @@ class Harness(object):
 		param: n/a
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.flow:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self._publisher.publish(from_,from_,'bootstrapper',name,'flow',self.driver_dict.get(name).flow())
@@ -160,6 +167,7 @@ class Harness(object):
 		param: n/a
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.clear_queue:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self.driver_dict.get(name).clear_queue()
@@ -207,6 +215,7 @@ class Harness(object):
 		param: n/a
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.meta_commands:')
+		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self._publisher.publish(from_,from_,'bootstrapper',name,'meta_commands',copy.deepcopy(self.meta_dict))
@@ -242,9 +251,7 @@ class Harness(object):
 
 		{
 			'name': name,
-
 			'message': value
-
 		}
 
 		where name the name of the driver or None if n/a,
@@ -259,7 +266,7 @@ class Harness(object):
 
 		"""
 		print(datetime.datetime.now(),' - bootstrapper_harness.meta_command:')
-		print('\tdata: ',data)
+		print('\tfrom_: ',from_)
 		print('\tdata: ',data)
 		if isinstance(data, dict):
 			name = data['name']
@@ -307,8 +314,8 @@ class Harness(object):
 		}
 		"""
 		print('bootstrapper_harness.send_command:')
-		print('\tfrom: '+str(from_))
-		print('\tdata: '+str(data))
+		print('\tfrom: ',from_)
+		print('\tdata: ',data)
 		if isinstance(data, dict):
 			name = data['name']
 			value = data['message']
