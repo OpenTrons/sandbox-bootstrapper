@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
         # INSTANTIATE DRIVERS:
         print('*\t*\t* instantiate drivers\t*\t*\t*')
-        bootie_driver = BoootstrapperDriver()
+        bootie_driver = BootstrapperDriver()
 
 
         # ADD DRIVERS TO HARNESS 
