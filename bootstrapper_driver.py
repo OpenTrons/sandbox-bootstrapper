@@ -342,7 +342,7 @@ class BootstrapperDriver(object):
 		print(datetime.datetime.now(),' - driver.send:')
 		print('\tmessage: ',message)
 		self.state_dict['queue_size'] = len(self.command_queue)
-		message = message + self.config_dict['message_ender']
+		#message = message + self.config_dict['message_ender']
 		if self.simulation:
 			self.simulation_queue.append(message)
 		
