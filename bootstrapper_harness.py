@@ -55,7 +55,10 @@ class Harness(object):
 		print('\tparam: ',param)
 		if name is None:
 			name = 'None'
-		self._publisher.publish(from_,from_,'bootstrapper',name,'drivers',list(self.driver_dict))
+		if from_ == "":
+			self._publisher.publish('frontend',from_,'bootstrapper',name,'drivers',list(self.driver_dict))
+		else:
+			self._publisher.publish(from_,from_,'bootstrapper',name,'drivers',list(self.driver_dict))
 		return list(self.driver_dict)
 
 
@@ -69,6 +72,11 @@ class Harness(object):
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self.driver_dict[name] = param
+		if from_ == "":
+			self._publisher.publish('frontend',from_,'bootstrapper',name,'drivers',list(self.driver_dict))
+		else:
+			self._publisher.publish(from_,from_,'bootstrapper',name,'drivers',list(self.driver_dict))
+		return list(self.driver_dict)
 
 
 	def remove_driver(self, from_, name, param):
@@ -81,6 +89,11 @@ class Harness(object):
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		del self.driver_dict[name]
+		if from_ == "":
+			self._publisher.publish('frontend',from_,'bootstrapper',name,'drivers',list(self.driver_dict))
+		else:
+			self._publisher.publish(from_,from_,'bootstrapper',name,'drivers',list(self.driver_dict))
+		return list(self.driver_dict)
 
 
 	def callbacks(self, from_, name, param):
@@ -92,7 +105,11 @@ class Harness(object):
 		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
-		self._publisher.publish(from_,from_,'bootstrapper',name,'callbacks',self.driver_dict[name].callbacks())
+		if from_ == "":
+			self._publisher.publish('frontend',from_,'bootstrapper',name,'callbacks',self.driver_dict[name].callbacks())
+		else:
+			self._publisher.publish(from_,from_,'bootstrapper',name,'callbacks',self.driver_dict[name].callbacks())
+		
 		return self.driver_dict[name].callbacks()
 
 
@@ -133,7 +150,11 @@ class Harness(object):
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self.driver_dict[name].add_callback(list(param)[0],list(param.values())[0])
-		self._publisher.publish(from_,from_,'bootstrapper',name,'callbacks',self.driver_dict.get(name).callbacks())
+		if from_ == "":
+			self._publisher.publish('frontend',from_,'bootstrapper',name,'callbacks',self.driver_dict.get(name).callbacks())
+		else:
+			self._publisher.publish(from_,from_,'bootstrapper',name,'callbacks',self.driver_dict.get(name).callbacks())
+		return self.driver_dict.get(name).callbacks()
 
 
 	def remove_callback(self, from_, name, param):
@@ -146,7 +167,11 @@ class Harness(object):
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self.driver_dict[name].remove_callback(param)
-		self._publisher.publish(form_,from_,'bootstrapper',name,'callbacks',self.driver_dict.get(name).callbacks())
+		if from_ == "":
+			self._publisher.publish('frontend',from_,'bootstrapper',name,'callbacks',self.driver_dict.get(name).callbacks())
+		else:
+			self._publisher.publish(from_,from_,'bootstrapper',name,'callbacks',self.driver_dict.get(name).callbacks())
+		return self.driver_dict.get(name).callbacks()
 
 
 	def flow(self, from_, name, param):
@@ -158,7 +183,11 @@ class Harness(object):
 		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
-		self._publisher.publish(from_,from_,'bootstrapper',name,'flow',self.driver_dict.get(name).flow())
+		if from_ == "":
+			self._publisher.publish(from_,from_,'bootstrapper',name,'flow',self.driver_dict.get(name).flow())
+		else:
+			self._publisher.publish(from_,from_,'bootstrapper',name,'flow',self.driver_dict.get(name).flow())
+		return self.driver_dict.get(name).flow()
 
 
 	def clear_queue(self, from_, name, param):
@@ -171,7 +200,7 @@ class Harness(object):
 		print('\tname: ',name)
 		print('\tparam: ',param)
 		self.driver_dict.get(name).clear_queue()
-		self.flow(name, None)
+		self.flow(from_, name, None)
 
 
 	#def connect(self, from_, name, param):
@@ -218,7 +247,11 @@ class Harness(object):
 		print('\tfrom_: ',from_)
 		print('\tname: ',name)
 		print('\tparam: ',param)
-		self._publisher.publish(from_,from_,'bootstrapper',name,'meta_commands',copy.deepcopy(self.meta_dict))
+		if from_ == "":
+			self._publisher.publish('frontend',from_,'bootstrapper',name,'meta_commands',copy.deepcopy(self.meta_dict))
+		else:
+			self._publisher.publish(from_,from_,'bootstrapper',name,'meta_commands',copy.deepcopy(self.meta_dict))
+		return copy.deepcopy(self.meta_dict)
 
 	#def configs(self, from_, name, param):
 	#	"""
@@ -278,14 +311,20 @@ class Harness(object):
 					try:
 						self.meta_dict[command](from_,name,params)
 					except:
-						self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info())
+						if from_ == "":
+							self._publisher.publish('frontend',from_,'bootstrapper',name,'error',sys.exc_info())
+						else:
+							self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info())
 						print(datetime.datetime.now(),' - meta_command error: ',sys.exc_info())
 				elif isinstance(value, str):
 					command = value
 					try:
 						self.meta_dict[command](from_,name,None)
 					except:
-						self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info())
+						if from_ == "":
+							self._publisher.publish('frontend',from_,'bootstrapper',name,'error',sys.exc_info())
+						else:
+							self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info())
 						print(datetime.datetime.now(),' - meta_command error: ',sys.exc_info())
 			else:
 				if isinstance(value, dict):
@@ -294,14 +333,20 @@ class Harness(object):
 					try:
 						self.meta_dict[command](from_,None, params)
 					except:
-						self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info())
+						if from_ == "":
+							self._publisher.publish('frontend',from_,'bootstrapper',name,'error',sys.exc_info())
+						else:
+							self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info())
 						print(datetime.datetime.now(),' - meta_command error, name not in drivers: ',sys.exc_info())
 				elif isinstance(value, str):
 					command = value
 					try:
 						self.meta_dict[command](from_,None,None)
 					except:
-						self._publisher.publish(from_,from_,'bootstrapper','None','error',sys.exc_info())
+						if from_ == "":
+							self._publisher.publish('frontend',from_,'bootstrapper','None','error',sys.exc_info())
+						else:
+							self._publisher.publish(from_,from_,'bootstrapper','None','error',sys.exc_info())
 						print(datetime.datetime.now(),' - meta_command error, name not in drivers: ',sys.exc_info())
 
 
@@ -323,10 +368,16 @@ class Harness(object):
 				try:
 					self.driver_dict[name].send_command(value)
 				except:
-					self._publisher.publish(self_,self_,'bootstrapper',name,'error',sys.exc_info()[0])
+					if from_ == "":
+						self._publisher.publish('frontend',from_,'bootstrapper',name,'error',sys.exc_info()[0])
+					else:
+						self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info()[0])
 					print(datetime.datetime.now(),' - send_command error: '+sys.exc_info()[0])
 			else:
-				self._publisher.publish(self_,self_,'bootstrapper','None','error',sys.exc_info()[0])
+				if from_ == "":
+					self._publisher.publish('frontend',from_,'bootstrapper','None','error',sys.exc_info()[0])
+				else:
+					self._publisher.publish(from_,from_,'bootstrapper','None','error',sys.exc_info()[0])
 				print(datetime.datetime.now(),' - send_command_error, name not in drivers: '+sys.exc_info()[0])
 
 
