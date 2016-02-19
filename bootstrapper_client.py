@@ -126,7 +126,7 @@ if __name__ == '__main__':
 
         # ADD DRIVERS TO HARNESS 
         print('*\t*\t* add drivers to harness\t*\t*\t*')   
-        bootstrapper_harness.add_driver(publisher.id,'bootstrapper',bootie_driver)
+        bootstrapper_harness.add_driver('frontend','bootstrapper',bootie_driver)
         print(bootstrapper_harness.drivers(publisher.id,None,None))
 
         # DEFINE CALLBACKS:

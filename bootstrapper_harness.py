@@ -358,7 +358,7 @@ class Harness(object):
 			'message': <string> or { message : {param:values} } <--- the part the driver cares about
 		}
 		"""
-		print('bootstrapper_harness.send_command:')
+		print(datetime.datetime.now(),'bootstrapper_harness.send_command:')
 		print('\tfrom: ',from_)
 		print('\tdata: ',data)
 		if isinstance(data, dict):
@@ -369,16 +369,16 @@ class Harness(object):
 					self.driver_dict[name].send_command(value)
 				except:
 					if from_ == "":
-						self._publisher.publish('frontend',from_,'bootstrapper',name,'error',sys.exc_info()[0])
+						self._publisher.publish('frontend',from_,'bootstrapper',name,'error',sys.exc_info())
 					else:
-						self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info()[0])
-					print(datetime.datetime.now(),' - send_command error: '+sys.exc_info()[0])
+						self._publisher.publish(from_,from_,'bootstrapper',name,'error',sys.exc_info())
+					print(datetime.datetime.now(),' - send_command error: '+sys.exc_info())
 			else:
 				if from_ == "":
-					self._publisher.publish('frontend',from_,'bootstrapper','None','error',sys.exc_info()[0])
+					self._publisher.publish('frontend',from_,'bootstrapper','None','error',sys.exc_info())
 				else:
-					self._publisher.publish(from_,from_,'bootstrapper','None','error',sys.exc_info()[0])
-				print(datetime.datetime.now(),' - send_command_error, name not in drivers: '+sys.exc_info()[0])
+					self._publisher.publish(from_,from_,'bootstrapper','None','error',sys.exc_info())
+				print(datetime.datetime.now(),' - send_command_error, name not in drivers: '+sys.exc_info())
 
 
 

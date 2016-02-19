@@ -354,8 +354,8 @@ class BootstrapperDriver(object):
 		#self.state_dict['ack_ready'] = False  # needs to be set here because not ready message from device takes too long, ack_received already received
 		#self.lock_check()
 		#self.smoothie_transport.write(message.encode())
-		print('CALL LABWARE COMMAND HERE WITH:\n\
-		 	self._data_handler(  * * * LABWARE CALL * * *  )')
+		print('CALL BOOTSTRAPPER COMMAND HERE WITH:\n\
+		 	self._data_handler(  * * * BOOSTRAPPER CALL * * *  )')
 			#self.smoothie_streamwriter.drain()
 		#else:
 		#	print(datetime.datetime.now(),' - smoothie_transport is None????')
