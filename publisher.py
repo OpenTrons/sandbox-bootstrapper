@@ -19,7 +19,7 @@ class Publisher:
             'frontend' : 'com.opentrons.frontend',
             'driver' : 'com.opentrons.driver',
             'labware' : 'com.opentrons.labware',
-            'bootloader' : 'com.opentrons.bootloader'
+            'bootstrapper' : 'com.opentrons.bootstrapper'
         }
 
         #self.clients = {
