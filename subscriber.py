@@ -32,11 +32,11 @@ class Subscriber():
             dictum = collections.OrderedDict(json.loads(message.strip(), object_pairs_hook=collections.OrderedDict))
             if 'type' in dictum and 'from' in dictum and 'data' in dictum:
                 if dictum['type'] in self.in_dispatcher:
-                    if self.publisher.client_check(dictum['from']):
+                    #if self.publisher.client_check(dictum['from']):
                         #opportunity to filter, not actually used
-                        self.in_dispatcher[dictum['type']](dictum['from'],dictum['data'])
-                    else:
-                        self.in_dispatcher[doctum['type']](dictum['from'],dictum['data'])
+                    self.in_dispatcher[dictum['type']](dictum['from'],dictum['data'])
+                    #else:
+                    #    self.in_dispatcher[doctum['type']](dictum['from'],dictum['data'])
                 else:
                     print(datetime.datetime.now(),' - {error:malformed message, type not in in_dispatcher}\n\r',sys.exc_info())
                     print('type: ',dictum['type'])
