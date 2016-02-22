@@ -8,8 +8,8 @@ import uuid
 import datetime
 import sys
 
-from subscriber import Subscriber
-from publisher import Publisher
+from bootstrapper_subscriber import Subscriber
+from bootstrapper_publisher import Publisher
 from bootstrapper_harness import Harness
 from bootstrapper_driver import BootstrapperDriver
 
@@ -54,7 +54,7 @@ class WampComponent(wamp.ApplicationSession):
         Starts instatiation of robot objects by calling :meth:`otone_client.instantiate_objects`.
         """
         print(datetime.datetime.now(),' - driver_client : WampComponent.onJoin:')
-        print('\tdetails: ',str(details))
+        print('\targs:',locals())
         if not self.factory._myAppSession:
             self.factory._myAppSession = self
     
@@ -77,7 +77,7 @@ class WampComponent(wamp.ApplicationSession):
         :param details: Close information.
         """
         print('driver_client : WampComponent.onLeave:')
-        print('\tdetails: ',details)
+        print('\targs:',locals())
         if self.factory._myAppSession == self:
             self.factory._myAppSession = None
         try:
@@ -89,7 +89,7 @@ class WampComponent(wamp.ApplicationSession):
     def onDisconnect(self):
         """Callback fired when underlying transport has been closed.
         """
-        print(datetime.datetime.now(),' - bootstrapper_client : WampComponent.onDisconnect:')
+        print(datetime.datetime.now(),' - bootstrapper_client : WampComponent.onDisconnect')
         asyncio.get_event_loop().stop()
 
     

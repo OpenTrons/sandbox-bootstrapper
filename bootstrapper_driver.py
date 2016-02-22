@@ -10,6 +10,8 @@ from collections import Callable
 
 @asyncio.coroutine
 def simulator(reader, writer):
+	print(datetime.datetime.now(),' - bootstrapper_driver.simulator:')
+	print('\targs:',locals())
 	while True:
 		data = yield from reader.read(100)
 		print('data: ',data.decode())
